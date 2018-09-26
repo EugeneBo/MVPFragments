@@ -14,6 +14,7 @@ import com.github.parfenovvs.mvpsamplekotlin.R
 import com.github.parfenovvs.mvpsamplekotlin.entity.User
 import com.github.parfenovvs.mvpsamplekotlin.ui.base.BaseFragment
 import android.util.Log
+import com.github.parfenovvs.mvpsamplekotlin.ui.details.InitialDataUser
 import com.github.parfenovvs.mvpsamplekotlin.ui.details.OnItemClickListener
 import com.github.parfenovvs.mvpsamplekotlin.ui.details.SimpleDetailsFragment
 
@@ -49,8 +50,11 @@ class SimpleListFragment : BaseFragment<SimpleListView, SimpleListPresenter>(), 
         adapter.setListener(object : OnItemClickListener {
             override fun onClick(user: User?) {
                 val bundle = Bundle()
-                bundle.putString(user?.name, NAME_TAG)
-                bundle.putString(user?.email, EMAIL_TAG)
+
+                InitialDataUser.user=user
+
+                bundle.putString(NAME_TAG, user?.name)
+                bundle.putString(EMAIL_TAG, user?.email)
 
                 Log.d("LogTag", "SimpleListFragment RESULT: ${user?.name} - ${user?.email}")
 
@@ -61,13 +65,13 @@ class SimpleListFragment : BaseFragment<SimpleListView, SimpleListPresenter>(), 
                 activity?.supportFragmentManager?.
                         beginTransaction()?.
                         replace(R.id.container, detailsFragment)?.
-                        addToBackStack(DETAILS_FRAGMENT_TAG)?.
+                        addToBackStack(null)?.
                         commitAllowingStateLoss()
             }
         })
 
         recyclerView?.adapter = adapter
-        progressBar = view.findViewById(R.id.progressBarList)
+        progressBar = view.findViewById(R.id.listProgressBar)
 
         setToolbar()
 
@@ -93,7 +97,7 @@ class SimpleListFragment : BaseFragment<SimpleListView, SimpleListPresenter>(), 
 
 
     private fun setToolbar() {
-        toolbar = view?.findViewById(R.id.toolbar)
+        toolbar = view?.findViewById(R.id.listToolbar)
         toolbar?.title = "List"
     }
 

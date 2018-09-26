@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/listToolbar"
         layout="@layout/toolbar" />
 
 
@@ -14,7 +14,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/detailsToolbar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -23,7 +23,7 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ProgressBar
-            android:id="@+id/progressBarList"
+            android:id="@+id/listProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
