@@ -34,7 +34,7 @@ class SimpleListFragment : BaseFragment<SimpleListView, SimpleListPresenter>(), 
     private var progressBar: ProgressBar? = null
     private var toolbar: Toolbar? = null
 
-    override fun layoutId(): Int {
+    override fun provideLayoutId(): Int {
         return R.layout.fragment_simple_list
     }
 

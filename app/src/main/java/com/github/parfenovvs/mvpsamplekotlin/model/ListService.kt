@@ -9,11 +9,10 @@ object ListService {
             val users = ArrayList<User>()
             for (i in 0 until usersListSize)
                 users.add(User("username_$i", "username_$i@gmail.com"))
-            Thread.sleep(1000)              //  try/catch?
+            Thread.sleep(1500)              //  try/catch?
             callback.onSuccess(users)
 
         }.start()
-
     }
 
 }

@@ -15,7 +15,7 @@ class SimpleDetailsFragment : BaseFragment<SimpleDetailsView, SimpleDetailsPrese
     private var toolbar: Toolbar? = null
     private var handler = Handler()
 
-    override fun layoutId(): Int {
+    override fun provideLayoutId(): Int {
         return R.layout.fragment_details
     }
 
@@ -48,6 +48,7 @@ class SimpleDetailsFragment : BaseFragment<SimpleDetailsView, SimpleDetailsPrese
             detailsTextProgressBar?.visibility = View.GONE
             scrollView?.visibility = View.VISIBLE
         }
+
     }
 
 

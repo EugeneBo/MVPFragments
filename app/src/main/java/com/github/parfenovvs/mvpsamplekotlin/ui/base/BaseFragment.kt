@@ -1,38 +1,54 @@
 package com.github.parfenovvs.mvpsamplekotlin.ui.base
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.parfenovvs.mvpsamplekotlin.ui.PresenterHolder
 
 abstract class BaseFragment<V : BaseView, P : BasePresenter<V>> : Fragment() {
-  protected var presenter: P? = null
-    private set
+    protected var presenter: P? = null
+        private set
 
-  abstract fun layoutId(): Int
+    private lateinit var key: String
 
-  protected abstract fun providePresenter(): P
+    abstract fun provideLayoutId(): Int
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater.inflate(layoutId(), container, false)
-  }
+    protected abstract fun providePresenter(): P
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    attachPresenter(this as V)
-  }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(provideLayoutId(), container, false)
+    }
 
-  private fun attachPresenter(view: V) {
-    //TODO
-    val presenter = providePresenter()
-    presenter.attachView(view)
-    this.presenter = presenter
-  }
 
-  override fun onDestroyView() {
-    presenter?.detachView()
-    super.onDestroyView()
-  }
+    override fun onStart() {
+        super.onStart()
+        attachPresenter(this as V)
+    }
+
+    private fun attachPresenter(view: V) {
+        val presenter: P
+        key = view::class.java.simpleName
+        if (PresenterHolder.holder.containsKey(key))
+            presenter = PresenterHolder.holder[key] as P
+        else {
+            presenter = providePresenter()
+            PresenterHolder.holder[key] = presenter
+        }
+
+        presenter.attachView(view)
+        this.presenter = presenter
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        presenter?.detachView()
+    }
+
+    override fun onDestroyView() {
+        PresenterHolder.holder.remove(key)
+        super.onDestroyView()
+    }
 }
